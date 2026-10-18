@@ -6,73 +6,22 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#1a1a2e">
-<title>Hanssen Academia — Concorrência Portugal</title>
+<title>Hanssen Academia — Concorrência Portugal (v2)</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #0f0f1a;
-    color: #e8e8f0;
-    line-height: 1.5;
-    padding-bottom: 80px;
-  }
-  header {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    padding: 20px 16px 16px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 1px solid #2a2a4a;
-  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f0f1a; color: #e8e8f0; line-height: 1.5; padding-bottom: 80px; }
+  header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 20px 16px 16px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #2a2a4a; }
   header h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.02em; }
   header p { font-size: 0.75rem; color: #8a8aaa; margin-top: 2px; }
-  .stats-bar {
-    display: flex;
-    gap: 8px;
-    padding: 12px 16px;
-    overflow-x: auto;
-    background: #16162a;
-    border-bottom: 1px solid #2a2a4a;
-  }
-  .stat {
-    flex: 0 0 auto;
-    background: #1e1e38;
-    border-radius: 10px;
-    padding: 10px 14px;
-    min-width: 110px;
-  }
+  .stats-bar { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; background: #16162a; border-bottom: 1px solid #2a2a4a; }
+  .stat { flex: 0 0 auto; background: #1e1e38; border-radius: 10px; padding: 10px 14px; min-width: 110px; }
   .stat .num { font-size: 1.3rem; font-weight: 800; color: #7c9cff; }
   .stat .lbl { font-size: 0.65rem; color: #8a8aaa; text-transform: uppercase; letter-spacing: 0.05em; }
-  .segment {
-    margin: 16px;
-    background: #1a1a2e;
-    border-radius: 14px;
-    overflow: hidden;
-    border: 1px solid #2a2a4a;
-  }
-  .segment-header {
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    user-select: none;
-  }
-  .segment-header .icon {
-    width: 40px; height: 40px;
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.3rem;
-    flex-shrink: 0;
-  }
+  .segment { margin: 16px; background: #1a1a2e; border-radius: 14px; overflow: hidden; border: 1px solid #2a2a4a; }
+  .segment-header { padding: 14px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
+  .segment-header .icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
   .segment-header h2 { font-size: 0.95rem; font-weight: 700; flex: 1; }
-  .segment-header .count {
-    font-size: 0.7rem;
-    background: #2a2a4a;
-    padding: 3px 8px;
-    border-radius: 20px;
-    color: #a0a0c0;
-  }
+  .segment-header .count { font-size: 0.7rem; background: #2a2a4a; padding: 3px 8px; border-radius: 20px; color: #a0a0c0; }
   .segment-body { display: none; padding: 0 16px 16px; }
   .segment.open .segment-body { display: block; }
   .segment.open .segment-header .arrow { transform: rotate(180deg); }
@@ -81,104 +30,60 @@
   th { text-align: left; color: #6a6a8a; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.65rem; padding: 8px 4px; border-bottom: 1px solid #2a2a4a; }
   td { padding: 8px 4px; border-bottom: 1px solid #22223a; vertical-align: top; }
   td:first-child { font-weight: 600; color: #c8c8e0; white-space: nowrap; }
-  .tag {
-    display: inline-block;
-    font-size: 0.6rem;
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin: 1px;
-    font-weight: 600;
-  }
+  .tag { display: inline-block; font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; margin: 1px; font-weight: 600; }
   .tag-green { background: #1a3a2a; color: #5fd98a; }
   .tag-yellow { background: #3a3a1a; color: #d9d95f; }
   .tag-red { background: #3a1a1a; color: #d95f5f; }
   .tag-blue { background: #1a2a3a; color: #5f9fd9; }
-  .note {
-    margin: 16px;
-    padding: 12px 14px;
-    background: #1e1e38;
-    border-radius: 10px;
-    font-size: 0.75rem;
-    color: #a0a0c0;
-    border-left: 3px solid #7c9cff;
-  }
-  .footer {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    background: #16162a;
-    border-top: 1px solid #2a2a4a;
-    padding: 10px 16px;
-    font-size: 0.65rem;
-    color: #6a6a8a;
-    text-align: center;
-  }
-  .search {
-    margin: 12px 16px;
-    position: relative;
-  }
-  .search input {
-    width: 100%;
-    background: #1e1e38;
-    border: 1px solid #2a2a4a;
-    border-radius: 10px;
-    padding: 10px 14px 10px 36px;
-    color: #e8e8f0;
-    font-size: 0.85rem;
-    outline: none;
-  }
+  .note { margin: 16px; padding: 12px 14px; background: #1e1e38; border-radius: 10px; font-size: 0.75rem; color: #a0a0c0; border-left: 3px solid #7c9cff; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; background: #16162a; border-top: 1px solid #2a2a4a; padding: 10px 16px; font-size: 0.65rem; color: #6a6a8a; text-align: center; }
+  .search { margin: 12px 16px; position: relative; }
+  .search input { width: 100%; background: #1e1e38; border: 1px solid #2a2a4a; border-radius: 10px; padding: 10px 14px 10px 36px; color: #e8e8f0; font-size: 0.85rem; outline: none; }
   .search input:focus { border-color: #7c9cff; }
-  .search::before {
-    content: "🔍";
-    position: absolute;
-    left: 12px; top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.85rem;
-  }
+  .search::before { content: "🔍"; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 0.85rem; }
+  .src { font-size: 0.65rem; color: #5a5a7a; margin-top: 6px; }
 </style>
 </head>
 <body>
-
 <header>
   <h1>Hanssen Academia de Música</h1>
-  <p>Base de dados de concorrência — Portugal — atualizado 18/10/2026</p>
+  <p>Base de dados de concorrência — Portugal — v2 — atualizado 18/10/2026</p>
 </header>
-
 <div class="stats-bar">
-  <div class="stat"><div class="num">23</div><div class="lbl">Públicas EAE</div></div>
+  <div class="stat"><div class="num">12</div><div class="lbl">Públicos EAE</div></div>
+  <div class="stat"><div class="num">11</div><div class="lbl">Públicos c/ oferta</div></div>
   <div class="stat"><div class="num">140</div><div class="lbl">Particulares EAE</div></div>
   <div class="stat"><div class="num">5-8k</div><div class="lbl">Independentes</div></div>
   <div class="stat"><div class="num">2.812</div><div class="lbl">Superprof música</div></div>
   <div class="stat"><div class="num">80-130k</div><div class="lbl">Alunos privado</div></div>
 </div>
-
 <div class="search"><input type="text" id="searchInput" placeholder="Filtrar segmentos ou termos..." oninput="filterSegments()"></div>
 
-<!-- SEGMENTO 1 -->
-<div class="segment" data-search="pública conservatório rede pública gratuito articulado">
+<div class="segment" data-search="pública conservatório rede pública gratuito articulado castelo branco">
   <div class="segment-header" onclick="this.parentElement.classList.toggle('open')">
     <div class="icon" style="background:#1a3a2a">🏫</div>
     <h2>1. Rede Pública — Conservatórios EAE</h2>
-    <span class="count">23 escolas</span>
+    <span class="count">12 + 11</span>
     <span class="arrow">▼</span>
   </div>
   <div class="segment-body">
     <table>
       <tr><th>Indicador</th><th>Valor</th></tr>
-      <tr><td>Conservatórios especializados públicos</td><td>12 (7 continente + 4 ilhas; +1 Vila Real em 2024)</td></tr>
-      <tr><td>Escolas não especializadas c/ oferta EAE</td><td>11</td></tr>
-      <tr><td>Cobertura territorial</td><td>9 distritos + 5 ilhas (cobertura limitada)</td></tr>
-      <tr><td>Alunos públicos + agrupamentos</td><td>6.257</td></tr>
-      <tr><td>Propina regime articulado</td><td>0 € — simbólica (financiamento MEC)</td></tr>
+      <tr><td>Conservatórios públicos EAE</td><td>12 (7 continente + 4 ilhas; + Vila Real em 2024)</td></tr>
+      <tr><td>Escolas c/ oferta EAE (agrupamentos)</td><td>11</td></tr>
+      <tr><td>Total c/ oferta pública</td><td>23</td></tr>
+      <tr><td>Cobertura</td><td>9 distritos + ilhas; só 7 NUTS II</td></tr>
+      <tr><td>Alunos público + agrupamentos</td><td>6.257</td></tr>
+      <tr><td>Propina articulado</td><td>0 € (financiamento MEC)</td></tr>
       <tr><td>Sem financiamento</td><td>106–150 €/mês</td></tr>
-      <tr><td>Provas de admissão</td><td>Taxa de admissão 20–50% (selectivo)</td></tr>
-      <tr><td>Currículo</td><td>Formação Musical, instrumento, conjunto, história — habilitação para ESML/ESMAE</td></tr>
-      <tr><td>Horário</td><td>Pesado: escola regular de manhã + conservatório à tarde</td></tr>
+      <tr><td>Provas de admissão</td><td>Taxa 20–50% (selectivo)</td></tr>
+      <tr><td>Exemplo local</td><td>Conservatório Regional de Castelo Branco (desde 1971, Largo da Sé) + polos em Idanha-a-Nova e Proença-a-Nova; ESART (IPCB) com licenciaturas em Música</td></tr>
     </table>
-    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: percurso formal pré-profissional. Concorrente direto no segmento articulado; indireto no supletivo.</p>
+    <p class="src">Fontes: Almeida & Vieira 2025 (RPEM 150); DGAE; repositório IPCB.</p>
+    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: percurso formal pré-profissional. Concorrente direto no articulado; indireto no supletivo. Em Castelo Branco há conservatório — corrigido na v2.</p>
   </div>
 </div>
 
-<!-- SEGMENTO 2 -->
 <div class="segment" data-search="particular paralelismo patrocínio DGEstE propina">
   <div class="segment-header" onclick="this.parentElement.classList.toggle('open')">
     <div class="icon" style="background:#3a2a1a">🏫</div>
@@ -195,16 +100,16 @@
       <tr><td>Total EAE particular+cooperativo</td><td>140</td></tr>
       <tr><td>Alunos EAE particular/cooperativo</td><td>31.307</td></tr>
       <tr><td>Escolas profissionais (alunos)</td><td>1.482</td></tr>
-      <tr><td>Propina articulado c/ patrocínio</td><td>0–90 €/mês (DGEstE financia parcialmente)</td></tr>
+      <tr><td>Propina articulado c/ patrocínio</td><td>0–90 €/mês</td></tr>
       <tr><td>Propina supletivo</td><td>80–220 €/mês</td></tr>
-      <tr><td>Contrato de patrocínio 2024-2030</td><td>126 estabelecimentos + 6 polos concorreram</td></tr>
-      <tr><td>Polos</td><td>Expansão territorial via polos (ex: Ponte de Lima)</td></tr>
+      <tr><td>Contrato de patrocínio 2024-2030</td><td>126 estabelecimentos + 6 polos</td></tr>
+      <tr><td>Polos</td><td>Expansão territorial (ex: Ponte de Lima, Idanha-a-Nova)</td></tr>
     </table>
+    <p class="src">Fontes: DGEstE listas patrocínio 2024/2030; Almeida & Vieira 2025.</p>
     <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: a maior rede do país (12x a pública). Crescimento ancorado no contrato de patrocínio desde 2008. Concorrente direto no segmento formal com habilitação.</p>
   </div>
 </div>
 
-<!-- SEGMENTO 3 -->
 <div class="segment" data-search="privada sem paralelismo hobby início livre cursos livres">
   <div class="segment-header" onclick="this.parentElement.classList.toggle('open')">
     <div class="icon" style="background:#2a1a3a">🎵</div>
@@ -217,17 +122,17 @@
       <tr><th>Indicador</th><th>Valor</th></tr>
       <tr><td>Número estimado</td><td>300–500 escolas</td></tr>
       <tr><td>Oferta</td><td>Cursos livres, iniciação, instrumento para hobbystas</td></tr>
-      <tr><td>Reconhecimento acadêmico</td><td>Nenhum — sem habilitações</td></tr>
+      <tr><td>Reconhecimento académico</td><td>Nenhum — sem habilitações</td></tr>
       <tr><td>Provas de admissão</td><td>Não</td></tr>
-      <tr><td>Disciplinas teóricas obrigatórias</td><td>Não</td></tr>
       <tr><td>Preço</td><td>80–250 €/mês ou pacotes avulsos</td></tr>
-      <tr><td>Modelo físico</td><td>Maioria: professor em estúdio próprio ou sala alugada à hora</td></tr>
+      <tr><td>Modelo físico</td><td>Professor em estúdio próprio ou sala alugada</td></tr>
+      <tr><td>Exemplos de preço real</td><td>AGMT: 26 €/aula 25 min, 37 €/50 min; Nova Academia: 75 €/mês 30 min individual; Viva Música: 70 €/mês 50 min; Lusomusic: 88 €/mês 30 min individual</td></tr>
     </table>
-    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: o segmento mais próximo do teu. Flexibilidade total, foco em tocar. Concorrência direta de preço e formato. Escolas com lugar próprio são apostas de 5+ anos.</p>
+    <p class="src">Fontes: KitsunePass 2026; sites AGMT, Nova Academia, Viva Música, Lusomusic.</p>
+    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: o segmento mais próximo do teu. Flexibilidade total, foco em tocar. Concorrência direta de preço e formato.</p>
   </div>
 </div>
 
-<!-- SEGMENTO 4 -->
 <div class="segment" data-search="independente professor liberal categoria B autónomo">
   <div class="segment-header" onclick="this.parentElement.classList.toggle('open')">
     <div class="icon" style="background:#1a2a3a">👨‍🏫</div>
@@ -238,18 +143,18 @@
   <div class="segment-body">
     <table>
       <tr><th>Indicador</th><th>Valor</th></tr>
-      <tr><td>Número estimado</td><td>5.000–8.000 (regime Categoria B IRS)</td></tr>
-      <tr><td>Perfil</td><td>Inclui finalistas de ESM e professores que combinam c/ docência pública</td></tr>
-      <tr><td>Empresas c/ CAE 85520</td><td>~1.017 empresas registadas (Iberinform)</td></tr>
+      <tr><td>Número estimado</td><td>5.000–8.000 (Categoria B IRS)</td></tr>
+      <tr><td>Empresas c/ CAE 85520</td><td>~1.017 registadas (Iberinform)</td></tr>
       <tr><td>Alunos segmento privado total</td><td>80.000–130.000</td></tr>
       <tr><td>Preço típico</td><td>80–250 €/mês</td></tr>
+      <tr><td>Média Superprof iniciação</td><td>19 €/hora</td></tr>
       <tr><td>Modelo</td><td>Autónomo, sem estrutura escolar</td></tr>
     </table>
-    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: é o teu segmento. Mercado dominante (52% do valor global). Fragmentado — pouca coordenação entre professores. Oportunidade de diferenciação via plataforma e método.</p>
+    <p class="src">Fontes: Iberinform; KitsunePass 2026; Superprof.pt.</p>
+    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: é o teu segmento. Mercado dominante (52% do valor global). Fragmentado — pouca coordenação. Oportunidade via plataforma e método.</p>
   </div>
 </div>
 
-<!-- SEGMENTO 5 -->
 <div class="segment" data-search="plataforma marketplace superprof explicas.me online">
   <div class="segment-header" onclick="this.parentElement.classList.toggle('open')">
     <div class="icon" style="background:#3a1a2a">📱</div>
@@ -260,18 +165,18 @@
   <div class="segment-body">
     <table>
       <tr><th>Plataforma</th><th>Dados Portugal</th></tr>
-      <tr><td>Superprof</td><td>2.812 professores educação musical; 4.108 formação musical; média 12 €/h; 98% 1ª aula grátis; +119.000 professores totais no país</td></tr>
+      <tr><td>Superprof</td><td>119.000+ professores totais; 2.812 educação musical (12 €/h); 4.108 formação musical; 97-98% 1ª aula grátis</td></tr>
       <tr><td>explicas.me</td><td>Base menor, foco Lisboa/Porto, sem avaliações estruturadas</td></tr>
       <tr><td>Preply</td><td>Comissão 33%→18% após aula experimental</td></tr>
       <tr><td>italki</td><td>Comissão variável não publicada</td></tr>
       <tr><td>Classgap</td><td>Comissão 32%→16% conforme horas</td></tr>
       <tr><td>Tusclasesparticulares</td><td>Até 3 anúncios grátis</td></tr>
     </table>
-    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: captam alunos por preço baixo e conveniência online. Concorrência indireta — não substituem relação professor-aluno de longo prazo, mas pressionam o preço de entrada.</p>
+    <p class="src">Fontes: Superprof.pt (outubro 2026); Superprof blog vs explicas.me.</p>
+    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: captam alunos por preço baixo e conveniência online. Concorrência indireta — pressionam o preço de entrada.</p>
   </div>
 </div>
 
-<!-- SEGMENTO 6 -->
 <div class="segment" data-search="app IA yousician simply piano flowkey skoove tecnologia">
   <div class="segment-header" onclick="this.parentElement.classList.toggle('open')">
     <div class="icon" style="background:#2a3a1a">🧠</div>
@@ -291,18 +196,15 @@
       <tr><td>Tomplay</td><td>Vários</td><td>Assinatura</td><td>Acompanhamento + partituras</td></tr>
       <tr><td>MuseScore Learn</td><td>Vários</td><td>Gratuito/pago</td><td>Partituras interativas</td></tr>
     </table>
-    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: substituem a prática solitária entre aulas. Não substituem o professor — mas mudam a expectativa do aluno sobre o que uma aula deve oferecer. 44% das músicas novas diárias são geradas por IA (Deezer).</p>
+    <p class="src">Fontes: sites oficiais das apps; Deezer (44% músicas novas diárias geradas por IA).</p>
+    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: substituem a prática solitária entre aulas. Não substituem o professor — mudam a expectativa do aluno.</p>
   </div>
 </div>
 
 <div class="note">
-  <strong>Leitura estratégica:</strong> o teu posicionamento real é no cruzamento dos segmentos 3, 4 e 5 — professor independente com método próprio e presença digital. Os segmentos 1 e 2 competem por habilitação formal; o 6 compete por prática autónoma. Nenhum cobre bem o acompanhamento de longo prazo (8º ao 12º ano) com identidade de professor e comunidade.
+  <strong>Leitura estratégica (v2):</strong> o teu posicionamento real é no cruzamento dos segmentos 3, 4 e 5. Os segmentos 1 e 2 competem por habilitação formal; o 6 compete por prática autónoma. Nenhum cobre bem o acompanhamento de longo prazo (8 anos ao 12.º ano) com identidade de professor e comunidade. Correção v2: Castelo Branco TEM conservatório regional (desde 1971) + ESART no IPCB — a v1 dizia o contrário e estava errada.
 </div>
-
-<div class="footer">
-  Hanssen Academia de Música — dados de pesquisa 18/10/2026 — fontes: INE, CEE, DGEstE, Iberinform, Superprof, literatura académica
-</div>
-
+<div class="footer">Hanssen Academia de Música — v2 — 18/10/2026 — fontes: INE, CEE, DGEstE, DGAE, Iberinform, Superprof, KitsunePass, Almeida & Vieira (RPEM 150), sites das escolas</div>
 <script>
 function filterSegments() {
   const q = document.getElementById('searchInput').value.toLowerCase();
@@ -311,7 +213,6 @@ function filterSegments() {
     seg.style.display = text.includes(q) ? '' : 'none';
   });
 }
-// Abrir primeiro segmento por defeito
 document.querySelector('.segment').classList.add('open);
 </script>
 </body>
