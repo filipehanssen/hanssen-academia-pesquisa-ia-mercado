@@ -5,215 +5,317 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#1a1a2e">
-<title>Hanssen Academia — Concorrência Portugal (v2)</title>
+<meta name="theme-color" content="#0a0a14">
+<title>Hanssen Academia — Plano de Guerra v3</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f0f1a; color: #e8e8f0; line-height: 1.5; padding-bottom: 80px; }
-  header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 20px 16px 16px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #2a2a4a; }
-  header h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.02em; }
-  header p { font-size: 0.75rem; color: #8a8aaa; margin-top: 2px; }
-  .stats-bar { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; background: #16162a; border-bottom: 1px solid #2a2a4a; }
-  .stat { flex: 0 0 auto; background: #1e1e38; border-radius: 10px; padding: 10px 14px; min-width: 110px; }
-  .stat .num { font-size: 1.3rem; font-weight: 800; color: #7c9cff; }
-  .stat .lbl { font-size: 0.65rem; color: #8a8aaa; text-transform: uppercase; letter-spacing: 0.05em; }
-  .segment { margin: 16px; background: #1a1a2e; border-radius: 14px; overflow: hidden; border: 1px solid #2a2a4a; }
-  .segment-header { padding: 14px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
-  .segment-header .icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
-  .segment-header h2 { font-size: 0.95rem; font-weight: 700; flex: 1; }
-  .segment-header .count { font-size: 0.7rem; background: #2a2a4a; padding: 3px 8px; border-radius: 20px; color: #a0a0c0; }
-  .segment-body { display: none; padding: 0 16px 16px; }
-  .segment.open .segment-body { display: block; }
-  .segment.open .segment-header .arrow { transform: rotate(180deg); }
-  .arrow { transition: transform 0.2s; color: #6a6a8a; font-size: 0.8rem; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
-  th { text-align: left; color: #6a6a8a; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.65rem; padding: 8px 4px; border-bottom: 1px solid #2a2a4a; }
-  td { padding: 8px 4px; border-bottom: 1px solid #22223a; vertical-align: top; }
-  td:first-child { font-weight: 600; color: #c8c8e0; white-space: nowrap; }
-  .tag { display: inline-block; font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; margin: 1px; font-weight: 600; }
-  .tag-green { background: #1a3a2a; color: #5fd98a; }
-  .tag-yellow { background: #3a3a1a; color: #d9d95f; }
-  .tag-red { background: #3a1a1a; color: #d95f5f; }
-  .tag-blue { background: #1a2a3a; color: #5f9fd9; }
-  .note { margin: 16px; padding: 12px 14px; background: #1e1e38; border-radius: 10px; font-size: 0.75rem; color: #a0a0c0; border-left: 3px solid #7c9cff; }
-  .footer { position: fixed; bottom: 0; left: 0; right: 0; background: #16162a; border-top: 1px solid #2a2a4a; padding: 10px 16px; font-size: 0.65rem; color: #6a6a8a; text-align: center; }
-  .search { margin: 12px 16px; position: relative; }
-  .search input { width: 100%; background: #1e1e38; border: 1px solid #2a2a4a; border-radius: 10px; padding: 10px 14px 10px 36px; color: #e8e8f0; font-size: 0.85rem; outline: none; }
-  .search input:focus { border-color: #7c9cff; }
-  .search::before { content: "🔍"; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 0.85rem; }
-  .src { font-size: 0.65rem; color: #5a5a7a; margin-top: 6px; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:#0a0a14; color:#e8e8f0; line-height:1.45; padding-bottom:70px; }
+  header { background:linear-gradient(135deg,#12122a 0%,#1a1a3a 100%); padding:16px; position:sticky; top:0; z-index:100; border-bottom:1px solid #2a2a4a; }
+  header h1 { font-size:1.05rem; font-weight:800; letter-spacing:-0.02em; }
+  header p { font-size:0.7rem; color:#7a7a9a; margin-top:2px; }
+  nav { display:flex; gap:6px; padding:10px 12px; overflow-x:auto; background:#101022; border-bottom:1px solid #2a2a4a; position:sticky; top:58px; z-index:99; }
+  nav button { flex:0 0 auto; background:#1c1c34; border:1px solid #2e2e50; color:#a0a0c0; border-radius:20px; padding:7px 14px; font-size:0.72rem; font-weight:600; cursor:pointer; white-space:nowrap; }
+  nav button.active { background:#4a6cf7; border-color:#4a6cf7; color:#fff; }
+  .panel { display:none; padding:14px; }
+  .panel.active { display:block; }
+  .card { background:#141428; border:1px solid #2a2a4a; border-radius:12px; padding:14px; margin-bottom:12px; }
+  .card h3 { font-size:0.85rem; font-weight:700; margin-bottom:8px; color:#c8c8e0; }
+  .kpi-row { display:flex; gap:8px; overflow-x:auto; margin-bottom:12px; }
+  .kpi { flex:0 0 auto; background:#141428; border:1px solid #2a2a4a; border-radius:10px; padding:10px 12px; min-width:100px; text-align:center; }
+  .kpi .n { font-size:1.25rem; font-weight:800; color:#7c9cff; }
+  .kpi .l { font-size:0.6rem; color:#7a7a9a; text-transform:uppercase; letter-spacing:0.04em; margin-top:2px; }
+  table { width:100%; border-collapse:collapse; font-size:0.72rem; }
+  th { text-align:left; color:#6a6a8a; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; font-size:0.6rem; padding:6px 4px; border-bottom:1px solid #2a2a4a; }
+  td { padding:6px 4px; border-bottom:1px solid #1e1e34; vertical-align:top; }
+  td:first-child { font-weight:600; color:#c8c8e0; }
+  .bar { height:8px; background:#2a2a4a; border-radius:4px; overflow:hidden; margin-top:3px; }
+  .bar > span { display:block; height:100%; border-radius:4px; }
+  .tag { display:inline-block; font-size:0.58rem; padding:2px 6px; border-radius:4px; font-weight:700; margin:1px; }
+  .tg { background:#1a3a2a; color:#5fd98a; } .ty { background:#3a3a1a; color:#d9d95f; } .tb { background:#1a2a3a; color:#5f9fd9; } .tr { background:#3a1a1a; color:#d95f5f; }
+  .note { font-size:0.7rem; color:#8a8aaa; margin-top:8px; border-left:3px solid #4a6cf7; padding-left:8px; }
+  .src { font-size:0.6rem; color:#5a5a7a; margin-top:6px; }
+  canvas { max-height:260px; }
+  .map-wrap { position:relative; width:100%; max-width:420px; margin:0 auto; }
+  .map-wrap svg { width:100%; height:auto; }
+  .map-tip { position:absolute; background:#1c1c34; border:1px solid #4a6cf7; border-radius:8px; padding:8px 10px; font-size:0.7rem; color:#e8e8f0; pointer-events:none; display:none; z-index:5; box-shadow:0 4px 16px rgba(0,0,0,.5); }
+  .map-tip b { color:#7c9cff; }
+  .legend { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:8px; font-size:0.62rem; color:#7a7a9a; }
+  .legend i { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:4px; vertical-align:middle; }
+  footer { position:fixed; bottom:0; left:0; right:0; background:#101022; border-top:1px solid #2a2a4a; padding:8px 12px; font-size:0.6rem; color:#5a5a7a; text-align:center; }
+  .search input { width:100%; background:#141428; border:1px solid #2a2a4a; border-radius:10px; padding:9px 12px; color:#e8e8f0; font-size:0.8rem; outline:none; margin-bottom:10px; }
+  .search input:focus { border-color:#4a6cf7; }
 </style>
 </head>
 <body>
 <header>
-  <h1>Hanssen Academia de Música</h1>
-  <p>Base de dados de concorrência — Portugal — v2 — atualizado 18/10/2026</p>
+  <h1>Hanssen Academia — Plano de Guerra</h1>
+  <p>v3 · 18/10/2026 · DGEEC 2024/25 · INE 2025 · dados oficiais</p>
 </header>
-<div class="stats-bar">
-  <div class="stat"><div class="num">12</div><div class="lbl">Públicos EAE</div></div>
-  <div class="stat"><div class="num">11</div><div class="lbl">Públicos c/ oferta</div></div>
-  <div class="stat"><div class="num">140</div><div class="lbl">Particulares EAE</div></div>
-  <div class="stat"><div class="num">5-8k</div><div class="lbl">Independentes</div></div>
-  <div class="stat"><div class="num">2.812</div><div class="lbl">Superprof música</div></div>
-  <div class="stat"><div class="num">80-130k</div><div class="lbl">Alunos privado</div></div>
-</div>
-<div class="search"><input type="text" id="searchInput" placeholder="Filtrar segmentos ou termos..." oninput="filterSegments()"></div>
+<nav>
+  <button class="active" data-panel="mapa">🗺️ Mapa</button>
+  <button data-panel="alunos">🎓 Alunos</button>
+  <button data-panel="demografia">📊 Demografia</button>
+  <button data-panel="concorrencia">⚔️ Concorrência</button>
+  <button data-panel="precos">💰 Preços</button>
+  <button data-panel="estrategia">🎯 Estratégia</button>
+</nav>
 
-<div class="segment" data-search="pública conservatório rede pública gratuito articulado castelo branco">
-  <div class="segment-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="icon" style="background:#1a3a2a">🏫</div>
-    <h2>1. Rede Pública — Conservatórios EAE</h2>
-    <span class="count">12 + 11</span>
-    <span class="arrow">▼</span>
+<div id="mapa" class="panel active">
+  <div class="card">
+    <h3>Mapa de Portugal — População 0–14 anos por distrito (INE 2025)</h3>
+    <div class="map-wrap">
+      <svg viewBox="0 0 400 520" id="ptMap">
+        <g id="districts"></g>
+      </svg>
+      <div class="map-tip" id="tip"></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:#1a3a2a"></i> <30k</span>
+      <span><i style="background:#2a5a3a"></i> 30–60k</span>
+      <span><i style="background:#3a7a4a"></i> 60–100k</span>
+      <span><i style="background:#4a9a5a"></i> 100–150k</span>
+      <span><i style="background:#5fba6a"></i> 150–250k</span>
+      <span><i style="background:#7c9cff"></i> 250k+</span>
+    </div>
+    <p class="note">Castelo Branco: 20.422 crianças 0–14 (1,3% do país). O distrito cresceu +10.871 habitantes entre 2021 e 2025 — recuperação demográfica rara no interior. Três concelhos (Oleiros, Penamacor, Vila de Rei) lideram a redução do envelhecimento em Portugal.</p>
   </div>
-  <div class="segment-body">
+  <div class="card">
+    <h3>Ranking distritos — população 0–14</h3>
+    <table id="rankTable"></table>
+  </div>
+</div>
+
+<div id="alunos" class="panel">
+  <div class="kpi-row">
+    <div class="kpi"><div class="n">1,61M</div><div class="l">Total pré→12.º</div></div>
+    <div class="kpi"><div class="n">266k</div><div class="l">Pré-escolar</div></div>
+    <div class="kpi"><div class="n">409k</div><div class="l">1.º Ciclo</div></div>
+    <div class="kpi"><div class="n">205k</div><div class="l">2.º Ciclo</div></div>
+    <div class="kpi"><div class="n">346k</div><div class="l">3.º Ciclo</div></div>
+    <div class="kpi"><div class="n">387k</div><div class="l">Secundário</div></div>
+  </div>
+  <div class="card">
+    <h3>Evolução 2014/15 → 2024/25 (milhares)</h3>
+    <canvas id="chartEvolucao"></canvas>
+    <p class="src">DGEEC, Educação em Números 2026. Total: 1.699.976 → 1.612.094 (−5,2% em 10 anos). 1.º ciclo é a única exceção: +9.062 alunos em 2024/25.</p>
+  </div>
+  <div class="card">
+    <h3>Alunos por NUTS II — ensino básico 2024/25</h3>
+    <canvas id="chartNuts"></canvas>
+    <p class="src">DGEEC 2024/25. Norte 304.515 · Grande Lisboa 213.231 · Centro 141.574 · Península de Setúbal 87.682 · Algarve 49.539 · Alentejo 41.444 · Oeste e Vale do Tejo 76.977.</p>
+  </div>
+  <div class="card">
+    <h3>Novos ingressos — 10.º ano 2025/26 (DGES)</h3>
+    <canvas id="chartDecimo"></canvas>
+    <p class="src">DGES, inscritos 10.º ano 2025/26. Total nacional ~66.600. É a tua janela de captação anual no secundário.</p>
+  </div>
+  <div class="card">
+    <h3>Natureza dos estabelecimentos 2024/25</h3>
     <table>
-      <tr><th>Indicador</th><th>Valor</th></tr>
-      <tr><td>Conservatórios públicos EAE</td><td>12 (7 continente + 4 ilhas; + Vila Real em 2024)</td></tr>
-      <tr><td>Escolas c/ oferta EAE (agrupamentos)</td><td>11</td></tr>
-      <tr><td>Total c/ oferta pública</td><td>23</td></tr>
-      <tr><td>Cobertura</td><td>9 distritos + ilhas; só 7 NUTS II</td></tr>
-      <tr><td>Alunos público + agrupamentos</td><td>6.257</td></tr>
-      <tr><td>Propina articulado</td><td>0 € (financiamento MEC)</td></tr>
-      <tr><td>Sem financiamento</td><td>106–150 €/mês</td></tr>
-      <tr><td>Provas de admissão</td><td>Taxa 20–50% (selectivo)</td></tr>
-      <tr><td>Exemplo local</td><td>Conservatório Regional de Castelo Branco (desde 1971, Largo da Sé) + polos em Idanha-a-Nova e Proença-a-Nova; ESART (IPCB) com licenciaturas em Música</td></tr>
+      <tr><th>Rede</th><th>Alunos</th><th>Peso</th></tr>
+      <tr><td>Público</td><td>1.253.000</td><td><div class="bar"><span style="width:78%;background:#5f9fd9"></span></div></td></tr>
+      <tr><td>Privado dependente</td><td>43.000</td><td><div class="bar"><span style="width:3%;background:#d9d95f"></span></div></td></tr>
+      <tr><td>Privado independente</td><td>316.000</td><td><div class="bar"><span style="width:20%;background:#5fd98a"></span></div></td></tr>
     </table>
-    <p class="src">Fontes: Almeida & Vieira 2025 (RPEM 150); DGAE; repositório IPCB.</p>
-    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: percurso formal pré-profissional. Concorrente direto no articulado; indireto no supletivo. Em Castelo Branco há conservatório — corrigido na v2.</p>
+    <p class="src">DGEEC 2024/25 (aprox.). Privado independente cresceu 21% no secundário em 10 anos (81k→98k).</p>
   </div>
 </div>
 
-<div class="segment" data-search="particular paralelismo patrocínio DGEstE propina">
-  <div class="segment-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="icon" style="background:#3a2a1a">🏫</div>
-    <h2>2. Particulares c/ Paralelismo Pedagógico</h2>
-    <span class="count">140 escolas</span>
-    <span class="arrow">▼</span>
+<div id="demografia" class="panel">
+  <div class="kpi-row">
+    <div class="kpi"><div class="n">11,4M</div><div class="l">Pop. residente 2025</div></div>
+    <div class="kpi"><div class="n">1,58M</div><div class="l">0–14 anos</div></div>
+    <div class="kpi"><div class="n">192</div><div class="l">Índice envelhec.</div></div>
+    <div class="kpi"><div class="n">87.764</div><div class="l">Nados-vivos 2025</div></div>
   </div>
-  <div class="segment-body">
+  <div class="card">
+    <h3>População 0–14 por distrito</h3>
+    <canvas id="chartPop014"></canvas>
+    <p class="src">INE, estimativas 2025. Castelo Branco: 20.422 (13.º de 18). Mas +1.642 crianças 0–14 entre 2021 e 2025 — o distrito interior que mais cresce em jovens.</p>
+  </div>
+  <div class="card">
+    <h3>Estrutura etária Castelo Branco 2025</h3>
+    <canvas id="chartCB"></canvas>
+    <p class="src">INE 2025. 0–14: 20.422 · 15–64: 109.785 · 65+: 58.883. Índice de envelhecimento do município: 251,8 vs 192,4 nacional.</p>
+  </div>
+  <div class="card">
+    <h3>Projeções INE</h3>
     <table>
-      <tr><th>Indicador</th><th>Valor</th></tr>
-      <tr><td>Escolas EAE particulares/cooperativas</td><td>127</td></tr>
-      <tr><td>Escolas profissionais de música</td><td>8 (4 Norte, 3 Centro, 1 Sul)</td></tr>
-      <tr><td>Outras c/ cursos EAE/profissionais</td><td>5</td></tr>
-      <tr><td>Total EAE particular+cooperativo</td><td>140</td></tr>
-      <tr><td>Alunos EAE particular/cooperativo</td><td>31.307</td></tr>
-      <tr><td>Escolas profissionais (alunos)</td><td>1.482</td></tr>
-      <tr><td>Propina articulado c/ patrocínio</td><td>0–90 €/mês</td></tr>
-      <tr><td>Propina supletivo</td><td>80–220 €/mês</td></tr>
-      <tr><td>Contrato de patrocínio 2024-2030</td><td>126 estabelecimentos + 6 polos</td></tr>
-      <tr><td>Polos</td><td>Expansão territorial (ex: Ponte de Lima, Idanha-a-Nova)</td></tr>
+      <tr><th>Ano</th><th>Pop. total</th><th>Jovens ≤15</th><th>Idade mediana</th></tr>
+      <tr><td>2025</td><td>11,4M</td><td>1,58M</td><td>~47</td></tr>
+      <tr><td>2029</td><td>pico 10,9M</td><td>—</td><td>—</td></tr>
+      <tr><td>2040</td><td>—</td><td>—</td><td>50</td></tr>
+      <tr><td>2100</td><td>8,3M</td><td><1M</td><td>—</td></tr>
     </table>
-    <p class="src">Fontes: DGEstE listas patrocínio 2024/2030; Almeida & Vieira 2025.</p>
-    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: a maior rede do país (12x a pública). Crescimento ancorado no contrato de patrocínio desde 2008. Concorrente direto no segmento formal com habilitação.</p>
+    <p class="note">A coorte 8–18 anos encolhe nacionalmente, mas a imigração repõe crianças nas escolas a +16%/ano (206 mil alunos com pelo menos um pai estrangeiro). O teu mercado real pode ser a população escolar em movimento, não só a coorte nativa.</p>
   </div>
 </div>
 
-<div class="segment" data-search="privada sem paralelismo hobby início livre cursos livres">
-  <div class="segment-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="icon" style="background:#2a1a3a">🎵</div>
-    <h2>3. Privadas sem Paralelismo</h2>
-    <span class="count">300–500 escolas</span>
-    <span class="arrow">▼</span>
+<div id="concorrencia" class="panel">
+  <div class="search"><input type="text" id="segSearch" placeholder="Filtrar segmentos..." oninput="filterSeg()"></div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="n">23</div><div class="l">Públicos EAE</div></div>
+    <div class="kpi"><div class="n">140</div><div class="l">Particulares EAE</div></div>
+    <div class="kpi"><div class="n">300–500</div><div class="l">Privadas s/ paralelismo</div></div>
+    <div class="kpi"><div class="n">5–8k</div><div class="l">Independentes</div></div>
+    <div class="kpi"><div class="n">2.812</div><div class="l">Superprof música</div></div>
+    <div class="kpi"><div class="n">10+</div><div class="l">Apps IA</div></div>
   </div>
-  <div class="segment-body">
+  <div id="segList"></div>
+  <div class="card">
+    <h3>Leitura estratégica</h3>
+    <p style="font-size:0.75rem;color:#a0a0c0">O teu posicionamento real é no cruzamento dos segmentos 3, 4 e 5: privadas sem paralelismo, independentes e marketplaces. Os 1 e 2 competem por habilitação formal; o 6 compete por prática autónoma. Nenhum cobre bem o acompanhamento de longo prazo (8 anos ao 12.º ano) com identidade de professor e comunidade.</p>
+  </div>
+</div>
+
+<div id="precos" class="panel">
+  <div class="card">
+    <h3>Referências de preço reais (outubro 2026)</h3>
     <table>
-      <tr><th>Indicador</th><th>Valor</th></tr>
-      <tr><td>Número estimado</td><td>300–500 escolas</td></tr>
-      <tr><td>Oferta</td><td>Cursos livres, iniciação, instrumento para hobbystas</td></tr>
-      <tr><td>Reconhecimento académico</td><td>Nenhum — sem habilitações</td></tr>
-      <tr><td>Provas de admissão</td><td>Não</td></tr>
-      <tr><td>Preço</td><td>80–250 €/mês ou pacotes avulsos</td></tr>
-      <tr><td>Modelo físico</td><td>Professor em estúdio próprio ou sala alugada</td></tr>
-      <tr><td>Exemplos de preço real</td><td>AGMT: 26 €/aula 25 min, 37 €/50 min; Nova Academia: 75 €/mês 30 min individual; Viva Música: 70 €/mês 50 min; Lusomusic: 88 €/mês 30 min individual</td></tr>
+      <tr><th>Oferta</th><th>Preço</th><th>Notas</th></tr>
+      <tr><td>Conservatório público articulado</td><td>0 €/mês</td><td>Financiamento MEC; provas 20–50%</td></tr>
+      <tr><td>Conservatório sem financiamento</td><td>106–150 €/mês</td><td>Raro</td></tr>
+      <tr><td>Particular EAE c/ patrocínio</td><td>0–90 €/mês</td><td>126 escolas + 6 polos</td></tr>
+      <tr><td>Particular EAE supletivo</td><td>80–220 €/mês</td><td>Sem habilitações</td></tr>
+      <tr><td>AGMT (Lisboa)</td><td>26 €/aula 25 min<br>37 €/50 min</td><td>Privada s/ paralelismo</td></tr>
+      <tr><td>Nova Academia</td><td>75 €/mês 30 min</td><td>Individual</td></tr>
+      <tr><td>Viva Música</td><td>70 €/mês 50 min</td><td>Individual</td></tr>
+      <tr><td>Lusomusic</td><td>88 €/mês 30 min</td><td>Individual</td></tr>
+      <tr><td>Superprof média iniciação</td><td>19 €/hora</td><td>2.812 professores música</td></tr>
+      <tr><td>Aula individual cidade média</td><td>22–32 €/30 min</td><td>Estimativa mercado</td></tr>
+      <tr><td>Aula individual Lisboa/Porto</td><td>30–45 €/30 min</td><td>Estimativa mercado</td></tr>
+      <tr><td>Yousician / Simply Piano</td><td>$15–20/mês</td><td>Apps IA, sem professor</td></tr>
     </table>
-    <p class="src">Fontes: KitsunePass 2026; sites AGMT, Nova Academia, Viva Música, Lusomusic.</p>
-    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: o segmento mais próximo do teu. Flexibilidade total, foco em tocar. Concorrência direta de preço e formato.</p>
+  </div>
+  <div class="card">
+    <h3>Distribuição de preço (ilustrativa)</h3>
+    <canvas id="chartPrecos"></canvas>
   </div>
 </div>
 
-<div class="segment" data-search="independente professor liberal categoria B autónomo">
-  <div class="segment-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="icon" style="background:#1a2a3a">👨‍🏫</div>
-    <h2>4. Professores Independentes</h2>
-    <span class="count">5.000–8.000</span>
-    <span class="arrow">▼</span>
-  </div>
-  <div class="segment-body">
+<div id="estrategia" class="panel">
+  <div class="card">
+    <h3>O teu funil: 8 anos ao 12.º ano</h3>
+    <p style="font-size:0.75rem;color:#a0a0c0">Cada aluno captado aos 8 anos = ~10 anos de receita recorrente (4h/mês). A pergunta-chave: quantos alunos novos por ano precisas para crescer?</p>
     <table>
-      <tr><th>Indicador</th><th>Valor</th></tr>
-      <tr><td>Número estimado</td><td>5.000–8.000 (Categoria B IRS)</td></tr>
-      <tr><td>Empresas c/ CAE 85520</td><td>~1.017 registadas (Iberinform)</td></tr>
-      <tr><td>Alunos segmento privado total</td><td>80.000–130.000</td></tr>
-      <tr><td>Preço típico</td><td>80–250 €/mês</td></tr>
-      <tr><td>Média Superprof iniciação</td><td>19 €/hora</td></tr>
-      <tr><td>Modelo</td><td>Autónomo, sem estrutura escolar</td></tr>
+      <tr><th>Métrica</th><th>Valor</th></tr>
+      <tr><td>Crianças 0–14 em Castelo Branco</td><td>20.422</td></tr>
+      <tr><td>Pop. 10–19 no distrito (Censo 2021)</td><td>14.379</td></tr>
+      <tr><td>Novos 10.º anos/ano no Centro (DGES)</td><td>~12.600</td></tr>
+      <tr><td>Alunos EAE particular/cooperativo no país</td><td>31.307</td></tr>
+      <tr><td>Alunos privados independentes (estimativa)</td><td>80.000–130.000</td></tr>
     </table>
-    <p class="src">Fontes: Iberinform; KitsunePass 2026; Superprof.pt.</p>
-    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: é o teu segmento. Mercado dominante (52% do valor global). Fragmentado — pouca coordenação. Oportunidade via plataforma e método.</p>
+  </div>
+  <div class="card">
+    <h3>Próximos passos sugeridos</h3>
+    <p style="font-size:0.72rem;color:#8a8aaa">☐ Cruzar alunos EAE por distrito com população 0–14 (market share real)<br>
+    ☐ Mapear escolas de música em Castelo Branco e raio de 50 km<br>
+    ☐ Calcular CAC e LTV por aluno (4h/mês × preço × anos)<br>
+    ☐ Definir meta: X alunos novos/ano para Y% de crescimento<br>
+    ☐ Segunda fase: adequação do produto à era da IA</p>
   </div>
 </div>
 
-<div class="segment" data-search="plataforma marketplace superprof explicas.me online">
-  <div class="segment-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="icon" style="background:#3a1a2a">📱</div>
-    <h2>5. Plataformas Marketplace</h2>
-    <span class="count">4+ plataformas</span>
-    <span class="arrow">▼</span>
-  </div>
-  <div class="segment-body">
-    <table>
-      <tr><th>Plataforma</th><th>Dados Portugal</th></tr>
-      <tr><td>Superprof</td><td>119.000+ professores totais; 2.812 educação musical (12 €/h); 4.108 formação musical; 97-98% 1ª aula grátis</td></tr>
-      <tr><td>explicas.me</td><td>Base menor, foco Lisboa/Porto, sem avaliações estruturadas</td></tr>
-      <tr><td>Preply</td><td>Comissão 33%→18% após aula experimental</td></tr>
-      <tr><td>italki</td><td>Comissão variável não publicada</td></tr>
-      <tr><td>Classgap</td><td>Comissão 32%→16% conforme horas</td></tr>
-      <tr><td>Tusclasesparticulares</td><td>Até 3 anúncios grátis</td></tr>
-    </table>
-    <p class="src">Fontes: Superprof.pt (outubro 2026); Superprof blog vs explicas.me.</p>
-    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: captam alunos por preço baixo e conveniência online. Concorrência indireta — pressionam o preço de entrada.</p>
-  </div>
-</div>
+<footer>Hanssen Academia de Música · v3 · 18/10/2026 · Fontes: DGEEC, INE, DGES, DGEstE, Superprof, KitsunePass · github.com/filipehanssen/hanssen-academia-pesquisa-ia-mercado</footer>
 
-<div class="segment" data-search="app IA yousician simply piano flowkey skoove tecnologia">
-  <div class="segment-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="icon" style="background:#2a3a1a">🧠</div>
-    <h2>6. Apps de IA / Tecnologia</h2>
-    <span class="count">10+ apps</span>
-    <span class="arrow">▼</span>
-  </div>
-  <div class="segment-body">
-    <table>
-      <tr><th>App</th><th>Instrumento</th><th>Preço</th><th>Diferencial</th></tr>
-      <tr><td>Yousician</td><td>Piano, violão, baixo, ukulele, voz</td><td>$19,99/mês</td><td>Gamificação, 500M+ downloads</td></tr>
-      <tr><td>Simply Piano</td><td>Piano</td><td>$14,99/mês</td><td>Curso estruturado iniciante</td></tr>
-      <tr><td>flowkey</td><td>Piano</td><td>$19,99/mês</td><td>1.500+ músicas, vídeo mãos</td></tr>
-      <tr><td>Skoove</td><td>Piano</td><td>$19,99/mês</td><td>Personalização adaptativa</td></tr>
-      <tr><td>Fender Play</td><td>Guitarra</td><td>Assinatura</td><td>Vídeos curtos</td></tr>
-      <tr><td>Trala</td><td>Violino</td><td>Assinatura</td><td>Única c/ avaliação IA</td></tr>
-      <tr><td>Tomplay</td><td>Vários</td><td>Assinatura</td><td>Acompanhamento + partituras</td></tr>
-      <tr><td>MuseScore Learn</td><td>Vários</td><td>Gratuito/pago</td><td>Partituras interativas</td></tr>
-    </table>
-    <p class="src">Fontes: sites oficiais das apps; Deezer (44% músicas novas diárias geradas por IA).</p>
-    <p style="font-size:0.7rem;color:#6a6a8a;margin-top:8px">Atuação: substituem a prática solitária entre aulas. Não substituem o professor — mudam a expectativa do aluno.</p>
-  </div>
-</div>
-
-<div class="note">
-  <strong>Leitura estratégica (v2):</strong> o teu posicionamento real é no cruzamento dos segmentos 3, 4 e 5. Os segmentos 1 e 2 competem por habilitação formal; o 6 compete por prática autónoma. Nenhum cobre bem o acompanhamento de longo prazo (8 anos ao 12.º ano) com identidade de professor e comunidade. Correção v2: Castelo Branco TEM conservatório regional (desde 1971) + ESART no IPCB — a v1 dizia o contrário e estava errada.
-</div>
-<div class="footer">Hanssen Academia de Música — v2 — 18/10/2026 — fontes: INE, CEE, DGEstE, DGAE, Iberinform, Superprof, KitsunePass, Almeida & Vieira (RPEM 150), sites das escolas</div>
 <script>
-function filterSegments() {
-  const q = document.getElementById('searchInput').value.toLowerCase();
-  document.querySelectorAll('.segment').forEach(seg => {
-    const text = seg.getAttribute('data-search').toLowerCase();
-    seg.style.display = text.includes(q) ? '' : 'none';
-  });
+const DISTRICTS = [
+  {name:'Lisboa', pop014:380000, x:210, y:300, w:70, h:90},
+  {name:'Porto', pop014:290000, x:150, y:120, w:60, h:70},
+  {name:'Setúbal', pop014:150000, x:200, y:340, w:55, h:60},
+  {name:'Braga', pop014:140000, x:130, y:90, w:50, h:55},
+  {name:'Aveiro', pop014:115000, x:175, y:160, w:50, h:55},
+  {name:'Faro', pop014:75000, x:230, y:430, w:70, h:50},
+  {name:'Leiria', pop014:75000, x:195, y:230, w:45, h:50},
+  {name:'Santarém', pop014:68000, x:215, y:250, w:50, h:55},
+  {name:'Coimbra', pop014:62000, x:185, y:200, w:45, h:50},
+  {name:'Viseu', pop014:52000, x:165, y:175, w:40, h:50},
+  {name:'Viana do Castelo', pop014:34000, x:115, y:70, w:40, h:45},
+  {name:'Vila Real', pop014:26000, x:145, y:105, w:40, h:45},
+  {name:'Castelo Branco', pop014:20422, x:200, y:270, w:45, h:50},
+  {name:'Évora', pop014:22000, x:230, y:330, w:45, h:45},
+  {name:'Beja', pop014:20000, x:215, y:370, w:50, h:50},
+  {name:'Guarda', pop014:19000, x:175, y:150, w:35, h:40},
+  {name:'Bragança', pop014:16000, x:160, y:60, w:40, h:40},
+  {name:'Portalegre', pop014:14000, x:240, y:300, w:40, h:40}
+];
+function colorFor(v){
+  if(v>=250000) return '#7c9cff';
+  if(v>=150000) return '#5fba6a';
+  if(v>=100000) return '#4a9a5a';
+  if(v>=60000) return '#3a7a4a';
+  if(v>=30000) return '#2a5a3a';
+  return '#1a3a2a';
 }
-document.querySelector('.segment').classList.add('open);
+const g = document.getElementById('districts);
+const tip = document.getElementById('tip);
+DISTRICTS.forEach(d=>{
+  const r = document.createElementNS('http://www.w3.org/2000/svg','rect);
+  r.setAttribute('x',d.x); r.setAttribute('y',d.y); r.setAttribute('width',d.w); r.setAttribute('height',d.h);
+  r.setAttribute('rx',6); r.setAttribute('fill',colorFor(d.pop014)); r.setAttribute('stroke','#0a0a14'); r.setAttribute('stroke-width',2);
+  r.style.cursor='pointer';
+  r.addEventListener('mouseenter',e=>{ tip.style.display='block'; tip.innerHTML='<b>'+d.name+'</b><br>'+d.pop014.toLocaleString('pt-PT')+' crianças 0–14'; });
+  r.addEventListener('mousemove',e=>{ tip.style.left=(e.offsetX+10)+'px'; tip.style.top=(e.offsetY+10)+'px'; });
+  r.addEventListener('mouseleave',()=>{ tip.style.display='none'; });
+  r.addEventListener('click',()=>{ tip.style.display='block'; tip.innerHTML='<b>'+d.name+'</b><br>'+d.pop014.toLocaleString('pt-PT')+' crianças 0–14<br><span style="color:#7a7a9a">clica noutro distrito</span>'; });
+  g.appendChild(r);
+  const t = document.createElementNS('http://www.w3.org/2000/svg','text);
+  t.setAttribute('x',d.x+d.w/2); t.setAttribute('y',d.y+d.h/2+4);
+  t.setAttribute('text-anchor','middle'); t.setAttribute('fill','#e8e8f0'); t.setAttribute('font-size','9'); t.setAttribute('font-weight','700);
+  t.textContent = d.name.split(' ')[0];
+  g.appendChild(t);
+});
+
+const rank = [...DISTRICTS].sort((a,b)=>b.pop014-a.pop014);
+const rt = document.getElementById('rankTable);
+rank.forEach((d,i)=>{
+  const tr = document.createElement('tr);
+  const max = rank[0].pop014;
+  tr.innerHTML = '<td>'+(i+1)+'. '+d.name+'</td><td>'+d.pop014.toLocaleString('pt-PT')+'</td><td style="width:40%"><div class="bar"><span style="width:'+(d.pop014/max*100)+'%;background:'+colorFor(d.pop014)+'"></span></div></td>';
+  rt.appendChild(tr);
+});
+
+new Chart(document.getElementById('chartEvolucao'),{type:'line',data:{labels:['14/15','15/16','16/17','17/18','18/19','19/20','20/21','21/22','22/23','23/24','24/25'],datasets:[{label:'Total (milhares)',data:[1700,1665,1654,1629,1613,1595,1571,1586,1605,1614,1612],borderColor:'#7c9cff',tension:.3,pointRadius:3},{label:'1.º Ciclo',data:[418,408,404,401,394,387,373,375,388,400,409],borderColor:'#5fd98a',tension:.3,pointRadius:3},{label:'Secundário',data:[394,392,400,401,399,393,394,397,395,390,387],borderColor:'#d9d95f',tension:.3,pointRadius:3}]},options:{responsive:true,plugins:{legend:{labels:{color:'#a0a0c0',font:{size:10}}}},scales:{x:{ticks:{color:'#6a6a8a',font:{size:9}}},y:{ticks:{color:'#6a6a8a',font:{size:9}}}}}});
+
+new Chart(document.getElementById('chartNuts'),{type:'bar',data:{labels:['Norte','G. Lisboa','Centro','P. Setúbal','Algarve','Alentejo','Oeste/VT'],datasets:[{label:'Alunos básico',data:[304515,213231,141574,87682,49539,41444,76977],backgroundColor:['#7c9cff','#5f9fd9','#5fd98a','#d9d95f','#d95f5f','#9f5fd9','#5fd9d9']}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#6a6a8a',font:{size:9}}},y:{ticks:{color:'#6a6a8a',font:{size:9}}}}}});
+
+new Chart(document.getElementById('chartDecimo'),{type:'bar',data:{labels:['Norte','Lisboa','Centro','Algarve','Alentejo'],datasets:[{label:'Novos 10.º anos',data:[21019,22000,12600,6000,5000],backgroundColor:'#4a6cf7'}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#6a6a8a',font:{size:9}}},y:{ticks:{color:'#6a6a8a',font:{size:9}}}}}});
+
+new Chart(document.getElementById('chartPop014'),{type:'bar',data:{labels:rank.map(d=>d.name.split(' ')[0]),datasets:[{label:'0–14',data:rank.map(d=>d.pop014),backgroundColor:rank.map(d=>colorFor(d.pop014))}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#6a6a8a',font:{size:9}}},y:{ticks:{color:'#6a6a8a',font:{size:9}}}}}});
+
+new Chart(document.getElementById('chartCB'),{type:'doughnut',data:{labels:['0–14','15–64','65+'],datasets:[{data:[20422,109785,58883],backgroundColor:['#5fd98a','#7c9cff','#d9d95f']}]},options:{responsive:true,plugins:{legend:{labels:{color:'#a0a0c0',font:{size:10}}}}}});
+
+new Chart(document.getElementById('chartPrecos'),{type:'bar',data:{labels:['Conserv.\npúblico','Partic.\npatrocínio','Privada\ns/paralelo','Superprof\nmédia','Lisboa/\nPorto','Apps IA'],datasets:[{label:'€/mês (30 min equiv.)',data:[0,45,80,57,110,18],backgroundColor:['#5f9fd9','#d9d95f','#5fd98a','#9f5fd9','#d95f5f','#7a7a9a']}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#6a6a8a',font:{size:9}}},y:{ticks:{color:'#6a6a8a',font:{size:9}}}}}});
+
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active);
+  document.getElementById(b.dataset.panel).classList.add('active);
+}));
+
+const SEGS = [
+  {id:1,title:'Rede Pública — Conservatórios EAE',count:'12 + 11',tags:['tg','Formal'],rows:[['Conservatórios públicos EAE','12 (7 continente + 4 ilhas; +Vila Real 2024)'],['Escolas c/ oferta EAE','11'],['Alunos público+agrupamentos','6.257'],['Propina articulado','0 € (MEC)'],['Provas admissão','20–50%'],['Local','Conservatório Regional CB (1971) + polos Idanha-a-Nova, Proença-a-Nova; ESART/IPCB']],src:'Almeida & Vieira 2025; DGAE; IPCB'},
+  {id:2,title:'Particulares c/ Paralelismo',count:'140 escolas',tags:['ty','Formal'],rows:[['EAE particulares/cooperativas','127'],['Escolas profissionais música','8'],['Alunos EAE part/coop','31.307'],['Propina articulado c/ patrocínio','0–90 €/mês'],['Propina supletivo','80–220 €/mês'],['Contrato patrocínio 2024-30','126 estabelecimentos + 6 polos']],src:'DGEstE; Almeida & Vieira 2025'},
+  {id:3,title:'Privadas sem Paralelismo',count:'300–500',tags:['tb','Direto'],rows:[['Oferta','Cursos livres, iniciação, hobbystas'],['Habilitações','Nenhuma'],['Preço','80–250 €/mês'],['Modelo','Estúdio próprio ou sala alugada'],['Exemplos','AGMT 26€/25min; Nova Academia 75€/mês; Viva Música 70€/mês; Lusomusic 88€/mês']],src:'KitsunePass 2026; sites das escolas'},
+  {id:4,title:'Professores Independentes',count:'5.000–8.000',tags:['tb','Direto'],rows:[['Categoria B IRS','5–8 mil'],['Empresas CAE 85520','~1.017 (Iberinform)'],['Alunos privado total','80–130 mil'],['Preço típico','80–250 €/mês'],['Média Superprof iniciação','19 €/hora'],['Modelo','Autónomo, sem estrutura escolar']],src:'Iberinform; KitsunePass 2026; Superprof'},
+  {id:5,title:'Plataformas Marketplace',count:'4+ plataformas',tags:['ty','Indireto'],rows:[['Superprof','119k+ professores; 2.812 música (12€/h); 97–98% 1ª aula grátis'],['explicas.me','Base menor, Lisboa/Porto'],['Preply','Comissão 33%→18%'],['Classgap','Comissão 32%→16%'],['italki / Tusclases','Comissões variáveis / 3 anúncios grátis']],src:'Superprof.pt out/2026'},
+  {id:6,title:'Apps de IA / Tecnologia',count:'10+ apps',tags:['tr','Indireto'],rows:[['Yousician','Piano/violão/baixo/voz · $19,99/mês · 500M+ downloads'],['Simply Piano','Piano · $14,99/mês'],['flowkey','Piano · $19,99/mês · 1.500+ músicas'],['Skoove','Piano · $19,99/mês'],['Fender Play','Guitarra · assinatura'],['Trala','Violino · única c/ avaliação IA'],['Tomplay / MuseScore','Acompanhamento + partituras · gratuito/pago']],src:'Sites oficiais; Deezer 44% músicas IA/dia'}
+];
+const sl = document.getElementById('segList);
+SEGS.forEach(s=>{
+  const div = document.createElement('div'); div.className='card';
+  div.innerHTML = '<h3>'+s.title+' <span style="font-size:0.65rem;color:#6a6a8a">('+s.count+')</span></h3>'+
+    s.tags.map(t=>'<span class="tag '+t+'">'+({tg:'Formal',ty:'Formal',tb:'Direto',tr:'Indireto'})[t]+'</span>').join('')+
+    '<table>'+s.rows.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>').join('')+'</table>'+
+    '<p class="src">'+s.src+'</p>';
+  sl.appendChild(div);
+});
+function filterSeg(){
+  const q=document.getElementById('segSearch').value.toLowerCase();
+  sl.querySelectorAll('.card').forEach(c=>{ c.style.display = c.innerText.toLowerCase().includes(q)?'':'none'; });
+}
 </script>
 </body>
 </html>
